@@ -10,42 +10,42 @@
 <error line="24" column="19" severity="error" message="La variable &apos;fechaFinalString&apos; debe ser privada y tener métodos de acceso." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
 <error line="41" column="27" severity="error" message="Method name &apos;ObtenerDevoluciones&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
 <error line="53" severity="error" message="La línea es mayor de 120 caracteres (encontrado 151)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="72" column="48" severity="error" message="Method name &apos;ObtenerDevolucionesData&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
-<error line="85" severity="error" message="La línea es mayor de 120 caracteres (encontrado 156)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="108" column="25" severity="error" message="Method name &apos;AnularDevoluciones&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
-<error line="131" column="27" severity="error" message="Method name &apos;ObtenerVentas5&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
-<error line="143" severity="error" message="La línea es mayor de 120 caracteres (encontrado 214)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="162" column="43" severity="error" message="Method name &apos;ObtenerVentasData5&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
-<error line="175" severity="error" message="La línea es mayor de 120 caracteres (encontrado 249)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="198" column="27" severity="error" message="Method name &apos;ObtenerVentas19&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
-<error line="210" severity="error" message="La línea es mayor de 120 caracteres (encontrado 240)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="229" column="43" severity="error" message="Method name &apos;ObtenerVentasData19&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
-<error line="242" severity="error" message="La línea es mayor de 120 caracteres (encontrado 275)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="265" column="27" severity="error" message="Method name &apos;ObtenerVentas0&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
-<error line="277" severity="error" message="La línea es mayor de 120 caracteres (encontrado 300)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="297" column="43" severity="error" message="Method name &apos;ObtenerVentasData0&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
-<error line="310" severity="error" message="La línea es mayor de 120 caracteres (encontrado 270)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="333" column="25" severity="error" message="Method name &apos;AnularVentas&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
-<error line="359" column="25" severity="error" message="Method name &apos;RecalcularDevoluciones&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
-<error line="368" column="36" severity="error" message="&apos;12&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="390" column="73" severity="error" message="&apos;100&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="392" column="62" severity="error" message="&apos;100&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="419" column="11" severity="error" message="Capturar la excepción &apos;Exception&apos; no está permitido." source="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck"/>
-<error line="424" column="25" severity="error" message="Method name &apos;RecalcularVentas5&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
-<error line="432" column="36" severity="error" message="&apos;12&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="454" column="67" severity="error" message="&apos;100&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="456" column="62" severity="error" message="&apos;100&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="483" column="11" severity="error" message="Capturar la excepción &apos;Exception&apos; no está permitido." source="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck"/>
-<error line="488" column="25" severity="error" message="Method name &apos;RecalcularVentas19&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
-<error line="496" column="36" severity="error" message="&apos;12&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="518" column="67" severity="error" message="&apos;100&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="520" column="63" severity="error" message="&apos;100&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="547" column="11" severity="error" message="Capturar la excepción &apos;Exception&apos; no está permitido." source="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck"/>
-<error line="552" column="25" severity="error" message="Method name &apos;RecalcularVentas0&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
-<error line="560" column="36" severity="error" message="&apos;12&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="582" column="67" severity="error" message="&apos;100&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="584" column="62" severity="error" message="&apos;100&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="611" column="11" severity="error" message="Capturar la excepción &apos;Exception&apos; no está permitido." source="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck"/>
+<error line="69" column="48" severity="error" message="Method name &apos;ObtenerDevolucionesData&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
+<error line="81" severity="error" message="La línea es mayor de 120 caracteres (encontrado 156)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="102" column="25" severity="error" message="Method name &apos;AnularDevoluciones&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
+<error line="122" column="27" severity="error" message="Method name &apos;ObtenerVentas5&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
+<error line="134" severity="error" message="La línea es mayor de 120 caracteres (encontrado 214)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="151" column="43" severity="error" message="Method name &apos;ObtenerVentasData5&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
+<error line="163" severity="error" message="La línea es mayor de 120 caracteres (encontrado 249)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="186" column="27" severity="error" message="Method name &apos;ObtenerVentas19&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
+<error line="199" severity="error" message="La línea es mayor de 120 caracteres (encontrado 240)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="216" column="43" severity="error" message="Method name &apos;ObtenerVentasData19&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
+<error line="229" severity="error" message="La línea es mayor de 120 caracteres (encontrado 275)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="250" column="27" severity="error" message="Method name &apos;ObtenerVentas0&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
+<error line="262" severity="error" message="La línea es mayor de 120 caracteres (encontrado 300)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="280" column="43" severity="error" message="Method name &apos;ObtenerVentasData0&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
+<error line="293" severity="error" message="La línea es mayor de 120 caracteres (encontrado 270)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="314" column="25" severity="error" message="Method name &apos;AnularVentas&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
+<error line="338" column="25" severity="error" message="Method name &apos;RecalcularDevoluciones&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
+<error line="348" column="36" severity="error" message="&apos;12&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="371" column="73" severity="error" message="&apos;100&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="373" column="62" severity="error" message="&apos;100&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="400" column="11" severity="error" message="Capturar la excepción &apos;Exception&apos; no está permitido." source="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck"/>
+<error line="405" column="25" severity="error" message="Method name &apos;RecalcularVentas5&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
+<error line="415" column="36" severity="error" message="&apos;12&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="438" column="67" severity="error" message="&apos;100&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="440" column="62" severity="error" message="&apos;100&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="467" column="11" severity="error" message="Capturar la excepción &apos;Exception&apos; no está permitido." source="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck"/>
+<error line="472" column="25" severity="error" message="Method name &apos;RecalcularVentas19&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
+<error line="482" column="36" severity="error" message="&apos;12&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="504" column="67" severity="error" message="&apos;100&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="506" column="63" severity="error" message="&apos;100&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="533" column="11" severity="error" message="Capturar la excepción &apos;Exception&apos; no está permitido." source="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck"/>
+<error line="538" column="25" severity="error" message="Method name &apos;RecalcularVentas0&apos; must match pattern &apos;^[a-z][a-z0-9][a-zA-Z0-9_]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
+<error line="548" column="36" severity="error" message="&apos;12&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="570" column="67" severity="error" message="&apos;100&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="572" column="62" severity="error" message="&apos;100&apos; es un número mágico." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="599" column="11" severity="error" message="Capturar la excepción &apos;Exception&apos; no está permitido." source="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck"/>
 </file>
 <file name="C:\Users\Desarrollo\Documents\proyects\SOLTEC\ajusteventas\src\main\java\com\soltec\ConexionFirebird.java">
 <error line="7" column="1" severity="error" message="Falta el comentario Javadoc." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>

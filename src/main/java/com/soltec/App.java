@@ -38,9 +38,9 @@ public final class App {
         // RecalcularVentas0();
     }
 
-    private static Double ObtenerDevoluciones(java.util.Date fechaInicial, java.util.Date fechaFinal) {
+    private static Double ObtenerDevoluciones(java.util.Date fechaInicial, java.util.Date fechaFinal,
+            ConexionFirebird conectFirebird) {
         try {
-            ConexionFirebird conectFirebird = new ConexionFirebird();
 
             Connection connection = null;
             PreparedStatement statement = null;
@@ -59,20 +59,16 @@ public final class App {
             if (resultado.next()) {
                 total = resultado.getDouble(1);
             }
-            conectFirebird.desconectar();
             return total;
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
-        } catch (ClassNotFoundException er) {
-            System.out.println("Error: clsss" + er.getMessage());
         }
         return null;
     }
 
     private static ArrayList<DevolucionDataVo> ObtenerDevolucionesData(java.util.Date fechaInicial,
-            java.util.Date fechaFinal) {
+            java.util.Date fechaFinal, ConexionFirebird conectFirebird) {
         try {
-            ConexionFirebird conectFirebird = new ConexionFirebird();
 
             Connection connection = null;
             PreparedStatement statement = null;
@@ -99,15 +95,12 @@ public final class App {
 
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
-        } catch (ClassNotFoundException er) {
-            System.out.println("Error: clsss" + er.getMessage());
         }
         return null;
     }
 
-    private static void AnularDevoluciones(int idDevolucion) {
+    private static void AnularDevoluciones(int idDevolucion, ConexionFirebird conectFirebird) {
         try {
-            ConexionFirebird conectFirebird = new ConexionFirebird();
 
             Connection connection = null;
             PreparedStatement statement = null;
@@ -123,14 +116,12 @@ public final class App {
 
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
-        } catch (ClassNotFoundException er) {
-            System.out.println("Error: clsss" + er.getMessage());
         }
     }
 
-    private static Double ObtenerVentas5(java.util.Date fechaInicial, java.util.Date fechaFinal) {
+    private static Double ObtenerVentas5(java.util.Date fechaInicial, java.util.Date fechaFinal,
+            ConexionFirebird conectFirebird) {
         try {
-            ConexionFirebird conectFirebird = new ConexionFirebird();
 
             Connection connection = null;
             PreparedStatement statement = null;
@@ -153,16 +144,13 @@ public final class App {
             return total;
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
-        } catch (ClassNotFoundException er) {
-            System.out.println("Error: clsss" + er.getMessage());
         }
         return null;
     }
 
     private static ArrayList<VentaDataVo> ObtenerVentasData5(java.util.Date fechaInicial,
-            java.util.Date fechaFinal) {
+            java.util.Date fechaFinal, ConexionFirebird conectFirebird) {
         try {
-            ConexionFirebird conectFirebird = new ConexionFirebird();
 
             Connection connection = null;
             PreparedStatement statement = null;
@@ -195,9 +183,10 @@ public final class App {
         return null;
     }
 
-    private static Double ObtenerVentas19(java.util.Date fechaInicial, java.util.Date fechaFinal) {
+    private static Double ObtenerVentas19(java.util.Date fechaInicial, java.util.Date fechaFinal,
+            ConexionFirebird conectFirebird) {
+
         try {
-            ConexionFirebird conectFirebird = new ConexionFirebird();
 
             Connection connection = null;
             PreparedStatement statement = null;
@@ -220,16 +209,14 @@ public final class App {
             return total;
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
-        } catch (ClassNotFoundException er) {
-            System.out.println("Error: clsss" + er.getMessage());
         }
         return null;
     }
 
     private static ArrayList<VentaDataVo> ObtenerVentasData19(java.util.Date fechaInicial,
-            java.util.Date fechaFinal) {
+            java.util.Date fechaFinal,
+            ConexionFirebird conectFirebird) {
         try {
-            ConexionFirebird conectFirebird = new ConexionFirebird();
 
             Connection connection = null;
             PreparedStatement statement = null;
@@ -256,15 +243,13 @@ public final class App {
 
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
-        } catch (ClassNotFoundException er) {
-            System.out.println("Error: clsss" + er.getMessage());
         }
         return null;
     }
 
-    private static Double ObtenerVentas0(java.util.Date fechaInicial, java.util.Date fechaFinal) {
+    private static Double ObtenerVentas0(java.util.Date fechaInicial, java.util.Date fechaFinal,
+            ConexionFirebird conectFirebird) {
         try {
-            ConexionFirebird conectFirebird = new ConexionFirebird();
 
             Connection connection = null;
             PreparedStatement statement = null;
@@ -288,16 +273,14 @@ public final class App {
             return total;
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
-        } catch (ClassNotFoundException er) {
-            System.out.println("Error: clsss" + er.getMessage());
         }
         return null;
     }
 
     private static ArrayList<VentaDataVo> ObtenerVentasData0(java.util.Date fechaInicial,
-            java.util.Date fechaFinal) {
+            java.util.Date fechaFinal,
+            ConexionFirebird conectFirebird) {
         try {
-            ConexionFirebird conectFirebird = new ConexionFirebird();
 
             Connection connection = null;
             PreparedStatement statement = null;
@@ -324,22 +307,20 @@ public final class App {
 
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
-        } catch (ClassNotFoundException er) {
-            System.out.println("Error: clsss" + er.getMessage());
         }
         return null;
     }
 
-    private static void AnularVentas(int idVenta) {
+    private static void AnularVentas(int idVenta,
+            ConexionFirebird conectFirebird) {
         try {
-            ConexionFirebird conectFirebird = new ConexionFirebird();
 
             Connection connection = null;
             PreparedStatement statement = null;
 
             connection = conectFirebird.getConnection();
 
-            String sql = "UPDATE FACTURAS SET FACT_ANULADO = 'S' WHERE FACT_ID IN (";
+            String sql = "UPDATE FACTURAS SET FACT_ANULADO = 'S' WHERE FACT_ID = ?";
 
             statement = connection.prepareStatement(sql);
             statement.setInt(1, idVenta);
@@ -351,13 +332,12 @@ public final class App {
 
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
-        } catch (ClassNotFoundException er) {
-            System.out.println("Error: clsss" + er.getMessage());
         }
     }
 
     private static void RecalcularDevoluciones() {
         try {
+            ConexionFirebird conectFirebird = new ConexionFirebird();
 
             Calendar fechaInicial = new GregorianCalendar();
             Calendar fechaFinal = new GregorianCalendar();
@@ -368,7 +348,8 @@ public final class App {
             int cantMeses = difA * 12 + fechaFinal.get(Calendar.MONTH) - fechaInicial.get(Calendar.MONTH) + 1;
             Double totalDevoluciones = ObtenerDevoluciones(
                     fechaInicial.getTime(),
-                    fechaFinal.getTime());
+                    fechaFinal.getTime(),
+                    conectFirebird);
             DevolucionVo[] devoluciones = new DevolucionVo[cantMeses];
 
             for (int i = 0; i < cantMeses; i++) {
@@ -385,7 +366,7 @@ public final class App {
                 diaFinalMes.set(Calendar.DAY_OF_MONTH,
                         diaFinalMes.getActualMaximum(Calendar.DAY_OF_MONTH));
 
-                double total = ObtenerDevoluciones(diaInicialMes.getTime(), diaFinalMes.getTime());
+                double total = ObtenerDevoluciones(diaInicialMes.getTime(), diaFinalMes.getTime(), conectFirebird);
 
                 float porcentaje = (float) (total / totalDevoluciones * 100);
 
@@ -397,7 +378,7 @@ public final class App {
 
                 // obtener todas las devoluciones
                 ArrayList<DevolucionDataVo> devolucionesData = ObtenerDevolucionesData(diaInicialMes.getTime(),
-                        diaFinalMes.getTime());
+                        diaFinalMes.getTime(), conectFirebird);
 
                 double totalAnular = 0;
                 ArrayList<DevolucionDataVo> devolucionesAnular = new ArrayList<>();
@@ -411,7 +392,7 @@ public final class App {
 
                 for (int j = 0; j < devolucionesAnular.size(); j++) {
                     int id = devolucionesAnular.get(j).getId();
-                    AnularDevoluciones(id);
+                    AnularDevoluciones(id, conectFirebird);
                     System.out.println("Anulada devolucion: " + (j + 1));
                 }
             }
@@ -423,6 +404,8 @@ public final class App {
 
     private static void RecalcularVentas5() {
         try {
+            ConexionFirebird conectFirebird = new ConexionFirebird();
+
             Calendar fechaInicial = new GregorianCalendar();
             Calendar fechaFinal = new GregorianCalendar();
             fechaInicial.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(fechaInicialString));
@@ -432,7 +415,8 @@ public final class App {
             int cantMeses = difA * 12 + fechaFinal.get(Calendar.MONTH) - fechaInicial.get(Calendar.MONTH) + 1;
             Double totalVentas = ObtenerVentas5(
                     fechaInicial.getTime(),
-                    fechaFinal.getTime());
+                    fechaFinal.getTime(),
+                    conectFirebird);
             VentaVo[] ventas = new VentaVo[cantMeses];
 
             for (int i = 0; i < cantMeses; i++) {
@@ -449,7 +433,7 @@ public final class App {
                 diaFinalMes.set(Calendar.DAY_OF_MONTH,
                         diaFinalMes.getActualMaximum(Calendar.DAY_OF_MONTH));
 
-                double total = ObtenerVentas5(diaInicialMes.getTime(), diaFinalMes.getTime());
+                double total = ObtenerVentas5(diaInicialMes.getTime(), diaFinalMes.getTime(), conectFirebird);
 
                 float porcentaje = (float) (total / totalVentas * 100);
 
@@ -461,7 +445,7 @@ public final class App {
 
                 // obtener todas las devoluciones
                 ArrayList<VentaDataVo> ventasData = ObtenerVentasData5(diaInicialMes.getTime(),
-                        diaFinalMes.getTime());
+                        diaFinalMes.getTime(), conectFirebird);
 
                 double totalAnular = 0;
                 ArrayList<VentaDataVo> ventasAnular = new ArrayList<>();
@@ -475,7 +459,7 @@ public final class App {
 
                 for (int j = 0; j < ventasAnular.size(); j++) {
                     int id = ventasAnular.get(j).getId();
-                    AnularVentas(id);
+                    AnularVentas(id, conectFirebird);
                     System.out.println("Anulada venta: " + (j + 1) + " " + id);
                 }
             }
@@ -487,6 +471,8 @@ public final class App {
 
     private static void RecalcularVentas19() {
         try {
+            ConexionFirebird conectFirebird = new ConexionFirebird();
+
             Calendar fechaInicial = new GregorianCalendar();
             Calendar fechaFinal = new GregorianCalendar();
             fechaInicial.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(fechaInicialString));
@@ -496,7 +482,7 @@ public final class App {
             int cantMeses = difA * 12 + fechaFinal.get(Calendar.MONTH) - fechaInicial.get(Calendar.MONTH) + 1;
             Double totalVentas = ObtenerVentas19(
                     fechaInicial.getTime(),
-                    fechaFinal.getTime());
+                    fechaFinal.getTime(), conectFirebird);
             VentaVo[] ventas = new VentaVo[cantMeses];
 
             for (int i = 0; i < cantMeses; i++) {
@@ -513,7 +499,7 @@ public final class App {
                 diaFinalMes.set(Calendar.DAY_OF_MONTH,
                         diaFinalMes.getActualMaximum(Calendar.DAY_OF_MONTH));
 
-                double total = ObtenerVentas19(diaInicialMes.getTime(), diaFinalMes.getTime());
+                double total = ObtenerVentas19(diaInicialMes.getTime(), diaFinalMes.getTime(), conectFirebird);
 
                 float porcentaje = (float) (total / totalVentas * 100);
 
@@ -525,7 +511,7 @@ public final class App {
 
                 // obtener todas las devoluciones
                 ArrayList<VentaDataVo> ventasData = ObtenerVentasData19(diaInicialMes.getTime(),
-                        diaFinalMes.getTime());
+                        diaFinalMes.getTime(), conectFirebird);
 
                 double totalAnular = 0;
                 ArrayList<VentaDataVo> ventasAnular = new ArrayList<>();
@@ -539,7 +525,7 @@ public final class App {
 
                 for (int j = 0; j < ventasAnular.size(); j++) {
                     int id = ventasAnular.get(j).getId();
-                    AnularVentas(id);
+                    AnularVentas(id, conectFirebird);
                     System.out.println("Anulada venta: " + (j + 1));
                 }
             }
@@ -551,6 +537,8 @@ public final class App {
 
     private static void RecalcularVentas0() {
         try {
+            ConexionFirebird conectFirebird = new ConexionFirebird();
+
             Calendar fechaInicial = new GregorianCalendar();
             Calendar fechaFinal = new GregorianCalendar();
             fechaInicial.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(fechaInicialString));
@@ -560,7 +548,7 @@ public final class App {
             int cantMeses = difA * 12 + fechaFinal.get(Calendar.MONTH) - fechaInicial.get(Calendar.MONTH) + 1;
             Double totalVentas = ObtenerVentas0(
                     fechaInicial.getTime(),
-                    fechaFinal.getTime());
+                    fechaFinal.getTime(), conectFirebird);
             VentaVo[] ventas = new VentaVo[cantMeses];
 
             for (int i = 0; i < cantMeses; i++) {
@@ -577,7 +565,7 @@ public final class App {
                 diaFinalMes.set(Calendar.DAY_OF_MONTH,
                         diaFinalMes.getActualMaximum(Calendar.DAY_OF_MONTH));
 
-                double total = ObtenerVentas0(diaInicialMes.getTime(), diaFinalMes.getTime());
+                double total = ObtenerVentas0(diaInicialMes.getTime(), diaFinalMes.getTime(), conectFirebird);
 
                 float porcentaje = (float) (total / totalVentas * 100);
 
@@ -589,7 +577,7 @@ public final class App {
 
                 // obtener todas las devoluciones
                 ArrayList<VentaDataVo> ventasData = ObtenerVentasData0(diaInicialMes.getTime(),
-                        diaFinalMes.getTime());
+                        diaFinalMes.getTime(), conectFirebird);
 
                 double totalAnular = 0;
                 ArrayList<VentaDataVo> ventasAnular = new ArrayList<>();
@@ -603,7 +591,7 @@ public final class App {
 
                 for (int j = 0; j < ventasAnular.size(); j++) {
                     int id = ventasAnular.get(j).getId();
-                    AnularVentas(id);
+                    AnularVentas(id, conectFirebird);
                     System.out.println("Anulada venta: " + (j + 1));
                 }
             }
