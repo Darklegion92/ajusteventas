@@ -603,6 +603,7 @@ public final class App {
                         totalAnularDays += ventaData.getTotal();
                     }
                 }
+                totalFacturas += ventasAnular.size();
 
                 for (int j = 0; j < ventasAnular.size(); j++) {
                     int id = ventasAnular.get(j).getId();
