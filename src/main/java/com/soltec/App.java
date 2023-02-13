@@ -34,8 +34,8 @@ public final class App {
     public static void main(String[] args) {
         RecalcularDevoluciones();
         RecalcularVentas5();
-        RecalcularVentas19();
-        RecalcularVentas0();
+        // RecalcularVentas19();
+        // RecalcularVentas0();
     }
 
     private static Double ObtenerDevoluciones(java.util.Date fechaInicial, java.util.Date fechaFinal) {
@@ -105,7 +105,7 @@ public final class App {
         return null;
     }
 
-    private static void AnularDevoluciones(int[] idsDevolucion) {
+    private static void AnularDevoluciones(int idDevolucion) {
         try {
             ConexionFirebird conectFirebird = new ConexionFirebird();
 
@@ -114,18 +114,9 @@ public final class App {
 
             connection = conectFirebird.getConnection();
 
-            String sql = "UPDATE DEVOLUCIONES_VENTAS SET DEVT_ANULADO = 'S' WHERE DEVT_ID IN (";
-
-            for (int i = 0; i < idsDevolucion.length; i++) {
-                sql += idsDevolucion[i];
-                if (i < idsDevolucion.length - 1) {
-                    sql += ",";
-                }
-            }
-            sql += ");";
-
+            String sql = "UPDATE DEVOLUCIONES_VENTAS SET DEVT_ANULADO = 'S' WHERE DEVT_ID = ?";
             statement = connection.prepareStatement(sql);
-
+            statement.setInt(1, idDevolucion);
             statement.executeUpdate();
 
             conectFirebird.desconectar();
@@ -423,15 +414,11 @@ public final class App {
                     }
                 }
 
-                // anular devoluciones
-                int[] ids = new int[devolucionesAnular.size()];
-
                 for (int j = 0; j < devolucionesAnular.size(); j++) {
-                    ids[j] = devolucionesAnular.get(j).getId();
+                    int id = devolucionesAnular.get(j).getId();
+                    AnularDevoluciones(id);
+                    System.out.println("Anulada devolucion: " + (j + 1));
                 }
-                System.out.println("Anular devoluciones: " + ids.length);
-                AnularDevoluciones(ids);
-                System.out.println("Fin proceso de consulta de devoluciones");
             }
 
         } catch (Exception e) {
@@ -491,14 +478,11 @@ public final class App {
                     }
                 }
 
-                int[] ids = new int[ventasAnular.size()];
-
                 for (int j = 0; j < ventasAnular.size(); j++) {
-                    ids[j] = ventasAnular.get(j).getId();
+                    int id = ventasAnular.get(j).getId();
+                    AnularDevoluciones(id);
+                    System.out.println("Anulada venta: " + (j + 1));
                 }
-                System.out.println("Anular ventas 5%: " + ids.length);
-                AnularVentas(ids);
-                System.out.println("Fin proceso de anular de ventas 5%");
             }
 
         } catch (Exception e) {
@@ -558,14 +542,11 @@ public final class App {
                     }
                 }
 
-                int[] ids = new int[ventasAnular.size()];
-
                 for (int j = 0; j < ventasAnular.size(); j++) {
-                    ids[j] = ventasAnular.get(j).getId();
+                    int id = ventasAnular.get(j).getId();
+                    AnularDevoluciones(id);
+                    System.out.println("Anulada venta: " + (j + 1));
                 }
-                System.out.println("Anular ventas 19%: " + ids.length);
-                AnularVentas(ids);
-                System.out.println("Fin proceso de anular de ventas 19%");
             }
 
         } catch (Exception e) {
@@ -625,14 +606,11 @@ public final class App {
                     }
                 }
 
-                int[] ids = new int[ventasAnular.size()];
-
                 for (int j = 0; j < ventasAnular.size(); j++) {
-                    ids[j] = ventasAnular.get(j).getId();
+                    int id = ventasAnular.get(j).getId();
+                    AnularDevoluciones(id);
+                    System.out.println("Anulada venta: " + (j + 1));
                 }
-                System.out.println("Anular ventas 19%: " + ids.length);
-                AnularVentas(ids);
-                System.out.println("Fin proceso de anular de ventas 19%");
             }
 
         } catch (Exception e) {

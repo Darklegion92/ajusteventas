@@ -16,7 +16,6 @@ public class ConexionFirebird {
         con = null;
 
         Class.forName(Driver);
-        System.out.println("Conectando");
         con = DriverManager.getConnection(URL, Usuario, Contrasena);
     }
 
