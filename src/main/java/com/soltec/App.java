@@ -177,8 +177,6 @@ public final class App {
 
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
-        } catch (ClassNotFoundException er) {
-            System.out.println("Error: clsss" + er.getMessage());
         }
         return null;
     }
@@ -396,6 +394,7 @@ public final class App {
                     System.out.println("Anulada devolucion: " + (j + 1));
                 }
             }
+            conectFirebird.desconectar();
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
@@ -463,6 +462,7 @@ public final class App {
                     System.out.println("Anulada venta: " + (j + 1) + " " + id);
                 }
             }
+            conectFirebird.desconectar();
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
@@ -529,6 +529,7 @@ public final class App {
                     System.out.println("Anulada venta: " + (j + 1));
                 }
             }
+            conectFirebird.desconectar();
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
@@ -595,6 +596,8 @@ public final class App {
                     System.out.println("Anulada venta: " + (j + 1));
                 }
             }
+
+            conectFirebird.desconectar();
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
