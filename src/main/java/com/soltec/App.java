@@ -330,7 +330,7 @@ public final class App {
         return null;
     }
 
-    private static void AnularVentas(int[] idsVenta) {
+    private static void AnularVentas(int idVenta) {
         try {
             ConexionFirebird conectFirebird = new ConexionFirebird();
 
@@ -341,15 +341,9 @@ public final class App {
 
             String sql = "UPDATE FACTURAS SET FACT_ANULADO = 'S' WHERE FACT_ID IN (";
 
-            for (int i = 0; i < idsVenta.length; i++) {
-                sql += idsVenta[i];
-                if (i < idsVenta.length - 1) {
-                    sql += ",";
-                }
-            }
-            sql += ");";
-
             statement = connection.prepareStatement(sql);
+            statement.setInt(1, idVenta);
+            statement.executeUpdate();
 
             statement.executeUpdate();
 
@@ -481,7 +475,7 @@ public final class App {
 
                 for (int j = 0; j < ventasAnular.size(); j++) {
                     int id = ventasAnular.get(j).getId();
-                    AnularDevoluciones(id);
+                    AnularVentas(id);
                     System.out.println("Anulada venta: " + (j + 1) + " " + id);
                 }
             }
@@ -545,7 +539,7 @@ public final class App {
 
                 for (int j = 0; j < ventasAnular.size(); j++) {
                     int id = ventasAnular.get(j).getId();
-                    AnularDevoluciones(id);
+                    AnularVentas(id);
                     System.out.println("Anulada venta: " + (j + 1));
                 }
             }
@@ -609,7 +603,7 @@ public final class App {
 
                 for (int j = 0; j < ventasAnular.size(); j++) {
                     int id = ventasAnular.get(j).getId();
-                    AnularDevoluciones(id);
+                    AnularVentas(id);
                     System.out.println("Anulada venta: " + (j + 1));
                 }
             }
