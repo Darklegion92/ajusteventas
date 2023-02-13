@@ -34,8 +34,8 @@ public final class App {
     public static void main(String[] args) {
         RecalcularDevoluciones();
         RecalcularVentas5();
-        // RecalcularVentas19();
-        // RecalcularVentas0();
+        RecalcularVentas19();
+        RecalcularVentas0();
     }
 
     private static Double ObtenerDevoluciones(java.util.Date fechaInicial, java.util.Date fechaFinal,
@@ -158,7 +158,7 @@ public final class App {
 
             connection = conectFirebird.getConnection();
 
-            String sql = "SELECT f.fact_id, f.fact_total FROM FACTURAS f WHERE f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND (SELECT count(*) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 5)> 0";
+            String sql = "SELECT f.fact_id, f.fact_total, (SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 5 ) FROM FACTURAS f WHERE f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND (SELECT count(*) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 5)> 0";
             statement = connection.prepareStatement(sql);
             statement.setDate(1, new Date(fechaFinal.getTime()));
             statement.setDate(2, new Date(fechaInicial.getTime()));
@@ -167,7 +167,7 @@ public final class App {
             ArrayList<VentaDataVo> ventas = new ArrayList<VentaDataVo>();
 
             while (resultado.next()) {
-                ventaData = new VentaDataVo(resultado.getInt(1), resultado.getDouble(2));
+                ventaData = new VentaDataVo(resultado.getInt(1), resultado.getDouble(2), resultado.getDouble(3));
                 ventas.add(ventaData);
             }
 
@@ -222,7 +222,7 @@ public final class App {
 
             connection = conectFirebird.getConnection();
 
-            String sql = "SELECT f.fact_id, f.fact_total FROM FACTURAS f WHERE f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND (SELECT count(*) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 19 AND fd.fade_ivaporc <> 5)> 0";
+            String sql = "SELECT f.fact_id, f.fact_total, (SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 19 ), (SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 5 ) FROM FACTURAS f WHERE f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND (SELECT count(*) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 19) <> 0";
             statement = connection.prepareStatement(sql);
             statement.setDate(1, new Date(fechaFinal.getTime()));
             statement.setDate(2, new Date(fechaInicial.getTime()));
@@ -231,7 +231,8 @@ public final class App {
             ArrayList<VentaDataVo> ventas = new ArrayList<VentaDataVo>();
 
             while (resultado.next()) {
-                ventaData = new VentaDataVo(resultado.getInt(1), resultado.getDouble(2));
+                ventaData = new VentaDataVo(resultado.getInt(1), resultado.getDouble(2), resultado.getDouble(3),
+                        resultado.getDouble(4));
                 ventas.add(ventaData);
             }
             return ventas;
@@ -254,7 +255,7 @@ public final class App {
 
             connection = conectFirebird.getConnection();
 
-            String sql = "SELECT f.fact_id, f.fact_total FROM FACTURAS f WHERE f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND (SELECT count(*) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 0 AND fd.fade_ivaporc <> 5 AND fd.fade_ivaporc <> 19)> 0";
+            String sql = "SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd, FACTURAS f WHERE fd.fact_id = f.fact_id AND f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND fd.fade_ivaporc = 0;";
 
             statement = connection.prepareStatement(sql);
             statement.setDate(1, new Date(fechaFinal.getTime()));
@@ -285,7 +286,7 @@ public final class App {
 
             connection = conectFirebird.getConnection();
 
-            String sql = "SELECT f.fact_id, f.fact_total FROM FACTURAS_DETALLE fd, FACTURAS f WHERE fd.fact_id = f.fact_id AND f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND fd.fade_ivaporc = 0 AND fd.fade_ivaporc <> 19 AND fd.fade_ivaporc <> 5;";
+            String sql = "SELECT f.fact_id, f.fact_total, (SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 0 ),(SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 5 ),(SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 19 ) FROM FACTURAS_DETALLE fd, FACTURAS f WHERE fd.fact_id = f.fact_id AND f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND fd.fade_ivaporc = 0";
             statement = connection.prepareStatement(sql);
             statement.setDate(1, new Date(fechaFinal.getTime()));
             statement.setDate(2, new Date(fechaInicial.getTime()));
@@ -294,7 +295,7 @@ public final class App {
             ArrayList<VentaDataVo> ventas = new ArrayList<VentaDataVo>();
 
             while (resultado.next()) {
-                ventaData = new VentaDataVo(resultado.getInt(1), resultado.getDouble(2));
+                ventaData = new VentaDataVo(resultado.getInt(1), resultado.getDouble(2), resultado.getDouble(3));
                 ventas.add(ventaData);
             }
 
@@ -412,6 +413,9 @@ public final class App {
                     conectFirebird);
             VentaVo[] ventas = new VentaVo[cantMeses];
 
+            Double totalAnularDays = 0.0;
+            int totalFacturas = 0;
+
             for (int i = 0; i < cantMeses; i++) {
                 Calendar fechaInicialMes = new GregorianCalendar();
                 fechaInicialMes.setTime(fechaInicial.getTime());
@@ -444,18 +448,24 @@ public final class App {
                 ArrayList<VentaDataVo> ventasAnular = new ArrayList<>();
 
                 for (VentaDataVo ventaData : ventasData) {
-                    if (totalAnular + ventaData.getTotal() <= venta.getTotalAnular()) {
-                        totalAnular += ventaData.getTotal();
+                    if (totalAnular + ventaData.getTotaliva() <= venta.getTotalAnular()) {
+                        totalAnular += ventaData.getTotaliva();
                         ventasAnular.add(ventaData);
+                        totalAnularDays += ventaData.getTotal();
                     }
                 }
+
+                totalFacturas += ventasAnular.size();
 
                 for (int j = 0; j < ventasAnular.size(); j++) {
                     int id = ventasAnular.get(j).getId();
                     AnularVentas(id, conectFirebird);
                     System.out.println("Anulada venta: " + (j + 1) + " " + id);
                 }
+
             }
+            System.out.println("Total anular: " + totalAnularDays.intValue());
+            System.out.println("Total facturas: " + totalFacturas);
             conectFirebird.desconectar();
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
@@ -477,6 +487,8 @@ public final class App {
                     fechaInicial.getTime(),
                     fechaFinal.getTime(), conectFirebird);
             VentaVo[] ventas = new VentaVo[cantMeses];
+            Double totalAnularDays = 0.0;
+            int totalFacturas = 0;
 
             for (int i = 0; i < cantMeses; i++) {
                 Calendar fechaInicialMes = new GregorianCalendar();
@@ -510,11 +522,13 @@ public final class App {
                 ArrayList<VentaDataVo> ventasAnular = new ArrayList<>();
 
                 for (VentaDataVo ventaData : ventasData) {
-                    if (totalAnular + ventaData.getTotal() <= venta.getTotalAnular()) {
-                        totalAnular += ventaData.getTotal();
+                    if (totalAnular + ventaData.getTotaliva() <= venta.getTotalAnular() && ventaData.getIva5() == 0) {
+                        totalAnular += ventaData.getTotaliva();
                         ventasAnular.add(ventaData);
+                        totalAnularDays += ventaData.getTotal();
                     }
                 }
+                totalFacturas += ventasAnular.size();
 
                 for (int j = 0; j < ventasAnular.size(); j++) {
                     int id = ventasAnular.get(j).getId();
@@ -522,6 +536,8 @@ public final class App {
                     System.out.println("Anulada venta: " + (j + 1));
                 }
             }
+            System.out.println("Total anular: " + totalAnularDays.intValue());
+            System.out.println("Total facturas: " + totalFacturas);
             conectFirebird.desconectar();
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
@@ -543,6 +559,9 @@ public final class App {
                     fechaInicial.getTime(),
                     fechaFinal.getTime(), conectFirebird);
             VentaVo[] ventas = new VentaVo[cantMeses];
+
+            Double totalAnularDays = 0.0;
+            int totalFacturas = 0;
 
             for (int i = 0; i < cantMeses; i++) {
                 Calendar fechaInicialMes = new GregorianCalendar();
@@ -576,9 +595,12 @@ public final class App {
                 ArrayList<VentaDataVo> ventasAnular = new ArrayList<>();
 
                 for (VentaDataVo ventaData : ventasData) {
-                    if (totalAnular + ventaData.getTotal() <= venta.getTotalAnular()) {
-                        totalAnular += ventaData.getTotal();
+                    if (totalAnular + ventaData.getTotaliva() <= venta.getTotalAnular() && ventaData.getIva5() == 0
+                            && ventaData.getIva19() == 0) {
+
+                        totalAnular += ventaData.getTotaliva();
                         ventasAnular.add(ventaData);
+                        totalAnularDays += ventaData.getTotal();
                     }
                 }
 
@@ -588,6 +610,8 @@ public final class App {
                     System.out.println("Anulada venta: " + (j + 1));
                 }
             }
+            System.out.println("Total anular: " + totalAnularDays.intValue());
+            System.out.println("Total facturas: " + totalFacturas);
             conectFirebird.desconectar();
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
