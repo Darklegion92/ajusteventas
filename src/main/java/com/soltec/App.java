@@ -172,7 +172,7 @@ public final class App {
 
             connection = conectFirebird.getConnection();
 
-            String sql = "SELECT f.fact_id, f.fact_total FROM FACTURAS_DETALLE fd, FACTURAS f WHERE fd.fact_id = f.fact_id AND f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND fd.fade_ivaporc = 5;";
+            String sql = "SELECT f.fact_id, f.fact_total FROM FACTURAS f WHERE f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND (SELECT count(*) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 5)> 0";
             statement = connection.prepareStatement(sql);
             statement.setDate(1, new Date(fechaFinal.getTime()));
             statement.setDate(2, new Date(fechaInicial.getTime()));
@@ -239,7 +239,7 @@ public final class App {
 
             connection = conectFirebird.getConnection();
 
-            String sql = "SELECT f.fact_id, f.fact_total FROM FACTURAS_DETALLE fd, FACTURAS f WHERE fd.fact_id = f.fact_id AND f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND fd.fade_ivaporc = 19 AND fd.fade_ivaporc <> 5;";
+            String sql = "SELECT f.fact_id, f.fact_total FROM FACTURAS f WHERE f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND (SELECT count(*) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 19 AND fd.fade_ivaporc <> 5)> 0";
             statement = connection.prepareStatement(sql);
             statement.setDate(1, new Date(fechaFinal.getTime()));
             statement.setDate(2, new Date(fechaInicial.getTime()));
@@ -274,7 +274,8 @@ public final class App {
 
             connection = conectFirebird.getConnection();
 
-            String sql = "SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd, FACTURAS f WHERE fd.fact_id = f.fact_id AND f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND fd.fade_ivaporc = 0 AND fd.fade_ivaporc <> 19 AND fd.fade_ivaporc <> 5;";
+            String sql = "SELECT f.fact_id, f.fact_total FROM FACTURAS f WHERE f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND (SELECT count(*) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 0 AND fd.fade_ivaporc <> 5 AND fd.fade_ivaporc <> 19)> 0";
+
             statement = connection.prepareStatement(sql);
             statement.setDate(1, new Date(fechaFinal.getTime()));
             statement.setDate(2, new Date(fechaInicial.getTime()));
@@ -481,7 +482,7 @@ public final class App {
                 for (int j = 0; j < ventasAnular.size(); j++) {
                     int id = ventasAnular.get(j).getId();
                     AnularDevoluciones(id);
-                    System.out.println("Anulada venta: " + (j + 1));
+                    System.out.println("Anulada venta: " + (j + 1) + " " + id);
                 }
             }
 
