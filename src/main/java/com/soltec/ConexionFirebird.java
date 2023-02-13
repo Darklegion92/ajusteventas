@@ -18,10 +18,6 @@ public class ConexionFirebird {
         Class.forName(Driver);
         System.out.println("Conectando");
         con = DriverManager.getConnection(URL, Usuario, Contrasena);
-
-        if (con != null) {
-            System.out.println("Conexion Establecida");
-        }
     }
 
     public Connection getConnection() {
@@ -30,8 +26,5 @@ public class ConexionFirebird {
 
     public void desconectar() {
         con = null;
-        if (con == null) {
-            System.out.println("Conexion Terminada");
-        }
     }
 }

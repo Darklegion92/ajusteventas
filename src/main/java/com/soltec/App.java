@@ -32,8 +32,10 @@ public final class App {
      * @param args The arguments of the program.
      */
     public static void main(String[] args) {
-        // RecalcularDevoluciones();
+        RecalcularDevoluciones();
         RecalcularVentas5();
+        RecalcularVentas19();
+        RecalcularVentas0();
     }
 
     private static Double ObtenerDevoluciones(java.util.Date fechaInicial, java.util.Date fechaFinal) {
@@ -443,7 +445,7 @@ public final class App {
             Calendar fechaFinal = new GregorianCalendar();
             fechaInicial.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(fechaInicialString));
             fechaFinal.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(fechaFinalString));
-            System.out.println("Inicia proceso de consulta de ventas");
+            System.out.println("Inicia proceso de consulta de ventas 5%");
             int difA = fechaFinal.get(Calendar.YEAR) - fechaInicial.get(Calendar.YEAR);
             int cantMeses = difA * 12 + fechaFinal.get(Calendar.MONTH) - fechaInicial.get(Calendar.MONTH) + 1;
             Double totalVentas = ObtenerVentas5(
@@ -510,7 +512,7 @@ public final class App {
             Calendar fechaFinal = new GregorianCalendar();
             fechaInicial.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(fechaInicialString));
             fechaFinal.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(fechaFinalString));
-            System.out.println("Inicia proceso de consulta de ventas");
+            System.out.println("Inicia proceso de consulta de ventas 19%");
             int difA = fechaFinal.get(Calendar.YEAR) - fechaInicial.get(Calendar.YEAR);
             int cantMeses = difA * 12 + fechaFinal.get(Calendar.MONTH) - fechaInicial.get(Calendar.MONTH) + 1;
             Double totalVentas = ObtenerVentas19(
@@ -577,7 +579,7 @@ public final class App {
             Calendar fechaFinal = new GregorianCalendar();
             fechaInicial.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(fechaInicialString));
             fechaFinal.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(fechaFinalString));
-            System.out.println("Inicia proceso de consulta de ventas");
+            System.out.println("Inicia proceso de consulta de ventas exentas");
             int difA = fechaFinal.get(Calendar.YEAR) - fechaInicial.get(Calendar.YEAR);
             int cantMeses = difA * 12 + fechaFinal.get(Calendar.MONTH) - fechaInicial.get(Calendar.MONTH) + 1;
             Double totalVentas = ObtenerVentas0(
