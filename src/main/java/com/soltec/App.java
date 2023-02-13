@@ -90,7 +90,7 @@ public final class App {
                 devolucionData = new DevolucionDataVo(resultado.getInt(1), resultado.getDouble(2));
                 devoluciones.add(devolucionData);
             }
-            conectFirebird.desconectar();
+
             return devoluciones;
 
         } catch (SQLException e) {
@@ -111,8 +111,6 @@ public final class App {
             statement = connection.prepareStatement(sql);
             statement.setInt(1, idDevolucion);
             statement.executeUpdate();
-
-            conectFirebird.desconectar();
 
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
@@ -140,7 +138,7 @@ public final class App {
             if (resultado.next()) {
                 total = resultado.getDouble(1);
             }
-            conectFirebird.desconectar();
+
             return total;
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
@@ -172,7 +170,7 @@ public final class App {
                 ventaData = new VentaDataVo(resultado.getInt(1), resultado.getDouble(2));
                 ventas.add(ventaData);
             }
-            conectFirebird.desconectar();
+
             return ventas;
 
         } catch (SQLException e) {
@@ -203,7 +201,7 @@ public final class App {
             if (resultado.next()) {
                 total = resultado.getDouble(1);
             }
-            conectFirebird.desconectar();
+
             return total;
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
@@ -236,7 +234,6 @@ public final class App {
                 ventaData = new VentaDataVo(resultado.getInt(1), resultado.getDouble(2));
                 ventas.add(ventaData);
             }
-            conectFirebird.desconectar();
             return ventas;
 
         } catch (SQLException e) {
@@ -267,7 +264,7 @@ public final class App {
             if (resultado.next()) {
                 total = resultado.getDouble(1);
             }
-            conectFirebird.desconectar();
+
             return total;
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
@@ -300,7 +297,7 @@ public final class App {
                 ventaData = new VentaDataVo(resultado.getInt(1), resultado.getDouble(2));
                 ventas.add(ventaData);
             }
-            conectFirebird.desconectar();
+
             return ventas;
 
         } catch (SQLException e) {
@@ -325,8 +322,6 @@ public final class App {
             statement.executeUpdate();
 
             statement.executeUpdate();
-
-            conectFirebird.desconectar();
 
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
@@ -395,7 +390,6 @@ public final class App {
                 }
             }
             conectFirebird.desconectar();
-
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -463,7 +457,6 @@ public final class App {
                 }
             }
             conectFirebird.desconectar();
-
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -530,7 +523,6 @@ public final class App {
                 }
             }
             conectFirebird.desconectar();
-
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -596,9 +588,7 @@ public final class App {
                     System.out.println("Anulada venta: " + (j + 1));
                 }
             }
-
             conectFirebird.desconectar();
-
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
