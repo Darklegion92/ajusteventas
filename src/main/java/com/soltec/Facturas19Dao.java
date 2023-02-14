@@ -59,7 +59,7 @@ public class Facturas19Dao {
 
             VentaDataVo ventaData = null;
 
-            String sql = "SELECT f.fact_id, f.fact_total, (SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 19 ), (SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 5 ) FROM FACTURAS f WHERE f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND (SELECT count(*) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 19) <> 0";
+            String sql = "SELECT f.fact_id, f.fact_total, (SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 19 ), (SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 5 ) FROM FACTURAS f WHERE f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND (SELECT count(*) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 19) <> 0 AND f.fact_cufe is null;";
             statement = connection.prepareStatement(sql);
             statement.setDate(1, new Date(fechaFinal.getTime()));
             statement.setDate(2, new Date(fechaInicial.getTime()));

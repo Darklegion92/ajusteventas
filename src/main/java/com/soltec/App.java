@@ -45,7 +45,9 @@ public final class App {
             myFacturas5Dao.RecalcularVentas5();
             myFacturas19Dao.RecalcularVentas19();
             myFacturas0Dao.RecalcularVentas0();
-            // myProductosDao.AnularProductos();
+            /*
+             * myProductosDao.AnularProductos();
+             */
             conectFirebird.desconectar();
 
         } catch (ClassNotFoundException | SQLException e) {

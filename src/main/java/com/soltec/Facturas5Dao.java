@@ -33,7 +33,7 @@ public class Facturas5Dao {
 
             Double total = 0.0;
 
-            String sql = "SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd, FACTURAS f WHERE fd.fact_id = f.fact_id AND f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND fd.fade_ivaporc = 5 AND f.;";
+            String sql = "SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd, FACTURAS f WHERE fd.fact_id = f.fact_id AND f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND fd.fade_ivaporc = 5;";
             statement = connection.prepareStatement(sql);
             statement.setDate(1, new Date(fechaFinal.getTime()));
             statement.setDate(2, new Date(fechaInicial.getTime()));
@@ -45,7 +45,7 @@ public class Facturas5Dao {
 
             return total;
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            e.printStackTrace();
         }
         return null;
     }
@@ -59,7 +59,7 @@ public class Facturas5Dao {
 
             VentaDataVo ventaData = null;
 
-            String sql = "SELECT f.fact_id, f.fact_total, (SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 5 ) FROM FACTURAS f WHERE f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND (SELECT count(*) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 5)> 0";
+            String sql = "SELECT f.fact_id, f.fact_total, (SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 5 ) FROM FACTURAS f WHERE f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND (SELECT count(*) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 5)> 0 AND f.fact_cufe is null;";
             statement = connection.prepareStatement(sql);
             statement.setDate(1, new Date(fechaFinal.getTime()));
             statement.setDate(2, new Date(fechaInicial.getTime()));
@@ -150,7 +150,7 @@ public class Facturas5Dao {
             System.out.println("Total anular: " + totalAnularDays.intValue());
             System.out.println("Total facturas: " + totalFacturas);
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

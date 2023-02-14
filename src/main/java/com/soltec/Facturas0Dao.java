@@ -59,7 +59,7 @@ public class Facturas0Dao {
 
             VentaDataVo ventaData = null;
 
-            String sql = "SELECT f.fact_id, f.fact_total, (SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 0 ) FROM FACTURAS_DETALLE fd, FACTURAS f WHERE fd.fact_id = f.fact_id AND f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND (SELECT count(*) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 0) > 0";
+            String sql = "SELECT f.fact_id, f.fact_total, (SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 0 ),(SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 19),(SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 5 )  FROM FACTURAS_DETALLE fd, FACTURAS f WHERE fd.fact_id = f.fact_id AND f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND (SELECT count(*) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 0) > 0";
             statement = connection.prepareStatement(sql);
             statement.setDate(1, new Date(fechaFinal.getTime()));
             statement.setDate(2, new Date(fechaInicial.getTime()));
@@ -68,7 +68,8 @@ public class Facturas0Dao {
             ArrayList<VentaDataVo> ventas = new ArrayList<VentaDataVo>();
 
             while (resultado.next()) {
-                ventaData = new VentaDataVo(resultado.getInt(1), resultado.getDouble(2), resultado.getDouble(3));
+                ventaData = new VentaDataVo(resultado.getInt(1), resultado.getDouble(2), resultado.getDouble(3),
+                        resultado.getDouble(4), resultado.getDouble(5));
                 ventas.add(ventaData);
             }
 
@@ -91,9 +92,6 @@ public class Facturas0Dao {
             System.out.println("Inicia proceso de consulta de ventas exentas");
             int difA = fechaFinal.get(Calendar.YEAR) - fechaInicial.get(Calendar.YEAR);
             int cantMeses = difA * 12 + fechaFinal.get(Calendar.MONTH) - fechaInicial.get(Calendar.MONTH) + 1;
-            Double totalVentas = ObtenerVentas0(
-                    fechaInicial.getTime(),
-                    fechaFinal.getTime());
             VentaVo[] ventas = new VentaVo[cantMeses];
 
             int totalFacturas = 0;
@@ -115,7 +113,7 @@ public class Facturas0Dao {
 
                     double total = ObtenerVentas0(diaInicialMes.getTime(), diaFinalMes.getTime());
 
-                    float porcentaje = (float) (total / totalVentas * 100);
+                    float porcentaje = (float) 100;// (total / totalVentas * 100);
 
                     double totalNew = (netoVent0 * porcentaje) / 100;
 
