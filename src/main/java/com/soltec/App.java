@@ -42,12 +42,14 @@ public final class App {
             ProductosDao myProductosDao = new ProductosDao(connection, netoVent0, fechaInicialString, fechaFinalString);
 
             myDevolucionesDao.RecalcularDevoluciones();
+
             myFacturas5Dao.RecalcularVentas5();
-            myFacturas19Dao.RecalcularVentas19();
-            myFacturas0Dao.RecalcularVentas0();
             /*
+             * myFacturas19Dao.RecalcularVentas19();
+             * myFacturas0Dao.RecalcularVentas0();
              * myProductosDao.AnularProductos();
              */
+
             conectFirebird.desconectar();
 
         } catch (ClassNotFoundException | SQLException e) {

@@ -135,6 +135,7 @@ public class ProductosDao {
                         }
                     }
                     totalProductos += productosAnular.size();
+                    System.out.println("productos a anular: " + productosAnular.size());
 
                     for (int j = 0; j < productosAnular.size(); j++) {
                         int id = productosAnular.get(j).getId();
