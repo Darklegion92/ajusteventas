@@ -42,11 +42,10 @@ public final class App {
 
             Facturas551 facturas551 = new Facturas551(connection, fechaInicialString, fechaFinalString);
 
-            Facturas19Dao myFacturas19Dao = new Facturas19Dao(connection, netoVent19, fechaInicialString,
-                    fechaFinalString);
+            FacturasConsumo facturasConsumo = new FacturasConsumo(connection, fechaInicialString, fechaFinalString);
+
             Facturas0Dao myFacturas0Dao = new Facturas0Dao(connection, netoVent0, fechaInicialString,
                     fechaFinalString);
-            ProductosDao myProductosDao = new ProductosDao(connection, netoVent0, fechaInicialString, fechaFinalString);
 
             myDevolucionesDao.RecalcularDevoluciones();
 
@@ -54,29 +53,35 @@ public final class App {
 
             facturas551.RecalcularVentas551();
 
-            /*
-             * Calendar fechaInicial = new GregorianCalendar();
-             * Calendar fechaFinal = new GregorianCalendar();
-             * fechaInicial.setTime(new
-             * SimpleDateFormat("dd/MM/yyyy").parse(fechaInicialString));
-             * fechaFinal.setTime(new
-             * SimpleDateFormat("dd/MM/yyyy").parse(fechaFinalString));
-             * Double ventas0 = myFacturas0Dao.ObtenerVentas0(fechaInicial.getTime(),
-             * fechaFinal.getTime());
-             *
-             *
-             * while (ventas0 > netoVent0) {
-             * myFacturas0Dao.RecalcularVentas0();
-             * ventas0 = myFacturas0Dao.ObtenerVentas0(fechaInicial.getTime(),
-             * fechaFinal.getTime());
-             * connection.close();
-             * conectFirebird = new ConexionFirebird();
-             * connection = conectFirebird.getConnection();
-             *
-             * myFacturas0Dao = new Facturas0Dao(connection, netoVent0, fechaInicialString,
-             * fechaFinalString);
-             * }
-             */
+            facturasConsumo.RecalcularVentasConsumo();
+
+            Calendar fechaInicial = new GregorianCalendar();
+            Calendar fechaFinal = new GregorianCalendar();
+            fechaInicial.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(fechaInicialString));
+            fechaFinal.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(fechaFinalString));
+            Double ventas0 = myFacturas0Dao.ObtenerVentas0(fechaInicial.getTime(),
+                    fechaFinal.getTime());
+
+            while (ventas0 > netoVent0) {
+                boolean notInvoices = myFacturas0Dao.RecalcularVentas0();
+                ventas0 = myFacturas0Dao.ObtenerVentas0(fechaInicial.getTime(),
+                        fechaFinal.getTime());
+
+                if (notInvoices) {
+                    break;
+                }
+                connection.close();
+                conectFirebird = new ConexionFirebird();
+                connection = conectFirebird.getConnection();
+
+                myFacturas0Dao = new Facturas0Dao(connection, netoVent0, fechaInicialString,
+                        fechaFinalString);
+            }
+
+            Facturas19Dao myFacturas19Dao = new Facturas19Dao(connection, netoVent19, fechaInicialString,
+                    fechaFinalString);
+
+            myFacturas19Dao.RecalcularVentas19();
 
             /*
              * myFacturas19Dao.RecalcularVentas19();
@@ -87,12 +92,11 @@ public final class App {
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-        } /*
-           * catch (ParseException e) {
-           * // TODO Auto-generated catch block
-           * e.printStackTrace();
-           * }
-           */
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 
 }

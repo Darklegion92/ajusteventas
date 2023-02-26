@@ -80,7 +80,7 @@ public class Facturas0Dao {
         return null;
     }
 
-    void RecalcularVentas0() {
+    boolean RecalcularVentas0() {
         try {
             FacturasDao facturasDao = new FacturasDao(connection);
 
@@ -98,8 +98,6 @@ public class Facturas0Dao {
 
             int totalFacturas = 0;
             Double totalAnularDays = 0.0;
-
-            System.out.println();
 
             for (int i = 0; i < cantMeses; i++) {
                 Calendar fechaInicialMes = new GregorianCalendar();
@@ -152,12 +150,21 @@ public class Facturas0Dao {
                     break;
                 }
             }
+
+            if (totalFacturas == 0) {
+                return true;
+            }
+
             System.out.println("Total anular: " + totalAnularDays.intValue());
             System.out.println("Total facturas: " + totalFacturas);
+            return false;
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
+            return false;
+
         }
+
     }
 
 }
