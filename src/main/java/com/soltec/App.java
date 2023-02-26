@@ -2,6 +2,10 @@ package com.soltec;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Hello world!
@@ -35,6 +39,9 @@ public final class App {
                     fechaFinalString);
             Facturas5Dao myFacturas5Dao = new Facturas5Dao(connection, netoVent5, fechaInicialString,
                     fechaFinalString);
+
+            Facturas551 facturas551 = new Facturas551(connection, fechaInicialString, fechaFinalString);
+
             Facturas19Dao myFacturas19Dao = new Facturas19Dao(connection, netoVent19, fechaInicialString,
                     fechaFinalString);
             Facturas0Dao myFacturas0Dao = new Facturas0Dao(connection, netoVent0, fechaInicialString,
@@ -44,9 +51,35 @@ public final class App {
             myDevolucionesDao.RecalcularDevoluciones();
 
             myFacturas5Dao.RecalcularVentas5();
+
+            facturas551.RecalcularVentas551();
+
+            /*
+             * Calendar fechaInicial = new GregorianCalendar();
+             * Calendar fechaFinal = new GregorianCalendar();
+             * fechaInicial.setTime(new
+             * SimpleDateFormat("dd/MM/yyyy").parse(fechaInicialString));
+             * fechaFinal.setTime(new
+             * SimpleDateFormat("dd/MM/yyyy").parse(fechaFinalString));
+             * Double ventas0 = myFacturas0Dao.ObtenerVentas0(fechaInicial.getTime(),
+             * fechaFinal.getTime());
+             *
+             *
+             * while (ventas0 > netoVent0) {
+             * myFacturas0Dao.RecalcularVentas0();
+             * ventas0 = myFacturas0Dao.ObtenerVentas0(fechaInicial.getTime(),
+             * fechaFinal.getTime());
+             * connection.close();
+             * conectFirebird = new ConexionFirebird();
+             * connection = conectFirebird.getConnection();
+             *
+             * myFacturas0Dao = new Facturas0Dao(connection, netoVent0, fechaInicialString,
+             * fechaFinalString);
+             * }
+             */
+
             /*
              * myFacturas19Dao.RecalcularVentas19();
-             * myFacturas0Dao.RecalcularVentas0();
              * myProductosDao.AnularProductos();
              */
 
@@ -54,7 +87,12 @@ public final class App {
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-        }
+        } /*
+           * catch (ParseException e) {
+           * // TODO Auto-generated catch block
+           * e.printStackTrace();
+           * }
+           */
     }
 
 }

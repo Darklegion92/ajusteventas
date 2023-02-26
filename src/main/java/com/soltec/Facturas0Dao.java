@@ -32,7 +32,7 @@ public class Facturas0Dao {
 
             Double total = 0.0;
 
-            String sql = "SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd, FACTURAS f WHERE fd.fact_id = f.fact_id AND f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND fd.fade_ivaporc = 0;";
+            String sql = "SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd, FACTURAS f WHERE fd.fact_id = f.fact_id AND f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND fd.fade_tiva = 0;";
 
             statement = connection.prepareStatement(sql);
             statement.setDate(1, new Date(fechaFinal.getTime()));
@@ -42,7 +42,6 @@ public class Facturas0Dao {
             if (resultado.next()) {
                 total = resultado.getDouble(1);
             }
-
             return total;
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
@@ -59,7 +58,7 @@ public class Facturas0Dao {
 
             VentaDataVo ventaData = null;
 
-            String sql = "SELECT f.fact_id, f.fact_total, (SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 0 ),(SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 19),(SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 5 )  FROM FACTURAS_DETALLE fd, FACTURAS f WHERE fd.fact_id = f.fact_id AND f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND (SELECT count(*) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 0) > 0";
+            String sql = "SELECT f.fact_id, f.fact_total, (SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 0 ),(SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 5 )  FROM FACTURAS_DETALLE fd, FACTURAS f WHERE fd.fact_id = f.fact_id AND f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND (SELECT count(*) FROM FACTURAS_DETALLE fd WHERE fd.fact_id = f.fact_id AND fd.fade_ivaporc = 0) > 0";
             statement = connection.prepareStatement(sql);
             statement.setDate(1, new Date(fechaFinal.getTime()));
             statement.setDate(2, new Date(fechaInicial.getTime()));
@@ -69,7 +68,7 @@ public class Facturas0Dao {
 
             while (resultado.next()) {
                 ventaData = new VentaDataVo(resultado.getInt(1), resultado.getDouble(2), resultado.getDouble(3),
-                        resultado.getDouble(4), resultado.getDouble(5));
+                        resultado.getDouble(4));
                 ventas.add(ventaData);
             }
 
@@ -92,64 +91,70 @@ public class Facturas0Dao {
             System.out.println("Inicia proceso de consulta de ventas exentas");
             int difA = fechaFinal.get(Calendar.YEAR) - fechaInicial.get(Calendar.YEAR);
             int cantMeses = difA * 12 + fechaFinal.get(Calendar.MONTH) - fechaInicial.get(Calendar.MONTH) + 1;
+            Double totalVentas = ObtenerVentas0(
+                    fechaInicial.getTime(),
+                    fechaFinal.getTime());
             VentaVo[] ventas = new VentaVo[cantMeses];
 
             int totalFacturas = 0;
             Double totalAnularDays = 0.0;
-            do {
-                for (int i = 0; i < cantMeses; i++) {
-                    Calendar fechaInicialMes = new GregorianCalendar();
-                    fechaInicialMes.setTime(fechaInicial.getTime());
-                    fechaInicialMes.add(Calendar.MONTH, i);
 
-                    Calendar diaInicialMes = new GregorianCalendar();
-                    diaInicialMes.setTime(fechaInicialMes.getTime());
-                    diaInicialMes.set(Calendar.DAY_OF_MONTH, 1);
+            System.out.println();
 
-                    Calendar diaFinalMes = new GregorianCalendar();
-                    diaFinalMes.setTime(fechaInicialMes.getTime());
-                    diaFinalMes.set(Calendar.DAY_OF_MONTH,
-                            diaFinalMes.getActualMaximum(Calendar.DAY_OF_MONTH));
+            for (int i = 0; i < cantMeses; i++) {
+                Calendar fechaInicialMes = new GregorianCalendar();
+                fechaInicialMes.setTime(fechaInicial.getTime());
+                fechaInicialMes.add(Calendar.MONTH, i);
 
-                    double total = ObtenerVentas0(diaInicialMes.getTime(), diaFinalMes.getTime());
+                Calendar diaInicialMes = new GregorianCalendar();
+                diaInicialMes.setTime(fechaInicialMes.getTime());
+                diaInicialMes.set(Calendar.DAY_OF_MONTH, 1);
 
-                    float porcentaje = (float) 100;// (total / totalVentas * 100);
+                Calendar diaFinalMes = new GregorianCalendar();
+                diaFinalMes.setTime(fechaInicialMes.getTime());
+                diaFinalMes.set(Calendar.DAY_OF_MONTH,
+                        diaFinalMes.getActualMaximum(Calendar.DAY_OF_MONTH));
 
-                    double totalNew = (netoVent0 * porcentaje) / 100;
+                double total = ObtenerVentas0(diaInicialMes.getTime(), diaFinalMes.getTime());
 
-                    VentaVo venta = new VentaVo(total, porcentaje, fechaInicialMes.get(Calendar.MONTH) + 1,
-                            totalNew, total - totalNew);
-                    ventas[i] = venta;
+                float porcentaje = (float) (total / totalVentas * 100);
 
-                    ArrayList<VentaDataVo> ventasData = ObtenerVentasData0(diaInicialMes.getTime(),
-                            diaFinalMes.getTime());
+                double totalNew = (netoVent0 * porcentaje) / 100;
 
-                    double totalAnular = 0;
-                    ArrayList<VentaDataVo> ventasAnular = new ArrayList<>();
+                VentaVo venta = new VentaVo(total, porcentaje, fechaInicialMes.get(Calendar.MONTH) + 1,
+                        totalNew, total - totalNew);
+                ventas[i] = venta;
 
-                    for (VentaDataVo ventaData : ventasData) {
-                        if (totalAnular + ventaData.getTotaliva() <= venta.getTotalAnular()) {
+                ArrayList<VentaDataVo> ventasData = ObtenerVentasData0(diaInicialMes.getTime(),
+                        diaFinalMes.getTime());
 
-                            totalAnular += ventaData.getTotaliva();
-                            ventasAnular.add(ventaData);
-                            totalAnularDays += ventaData.getTotal();
-                        }
-                    }
-                    totalFacturas += ventasAnular.size();
+                double totalAnular = 0;
+                ArrayList<VentaDataVo> ventasAnular = new ArrayList<>();
 
-                    for (int j = 0; j < ventasAnular.size(); j++) {
-                        int id = ventasAnular.get(j).getId();
-                        facturasDao.AnularVentas(id);
-                        // System.out.println("Anulada venta: " + (j + 1));
-                    }
+                for (VentaDataVo ventaData : ventasData) {
+                    if (totalAnular + ventaData.getTotaliva() <= venta.getTotalAnular()
+                            && ventaData.getIva5() == 0) {
 
-                    if (ventasAnular.size() == 0 && i == cantMeses) {
-                        break;
+                        totalAnular += ventaData.getTotaliva();
+                        ventasAnular.add(ventaData);
+                        totalAnularDays += ventaData.getTotal();
                     }
                 }
-                System.out.println("Total anular: " + totalAnularDays.intValue());
-                System.out.println("Total facturas: " + totalFacturas);
-            } while (totalAnularDays.intValue() > 0);
+                totalFacturas += ventasAnular.size();
+
+                for (int j = 0; j < ventasAnular.size(); j++) {
+                    int id = ventasAnular.get(j).getId();
+                    facturasDao.AnularVentas(id);
+                    // System.out.println("Anulada venta: " + (j + 1));
+                }
+
+                if (ventasAnular.size() == 0 && i == cantMeses) {
+                    break;
+                }
+            }
+            System.out.println("Total anular: " + totalAnularDays.intValue());
+            System.out.println("Total facturas: " + totalFacturas);
+
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }

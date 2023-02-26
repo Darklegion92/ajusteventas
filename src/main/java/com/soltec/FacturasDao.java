@@ -21,7 +21,12 @@ public class FacturasDao {
             statement.setInt(1, idVenta);
             statement.executeUpdate();
 
-            statement.executeUpdate();
+            /*
+             * sql = "UPDATE FACTURAS_DETALLE SET FADE_ANULADO = 'S' WHERE FACT_ID = ?";
+             * statement = connection.prepareStatement(sql);
+             * statement.setInt(1, idVenta);
+             * statement.executeUpdate();
+             */
 
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
