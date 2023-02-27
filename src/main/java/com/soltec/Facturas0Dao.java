@@ -32,7 +32,7 @@ public class Facturas0Dao {
 
             Double total = 0.0;
 
-            String sql = "SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd, FACTURAS f WHERE fd.fact_id = f.fact_id AND f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N' AND fd.fade_tiva = 0;";
+            String sql = "SELECT sum(fd.fade_total) FROM FACTURAS_DETALLE fd, FACTURAS f WHERE fd.fact_id = f.fact_id AND f.fact_fecha  <= ? AND f.fact_fecha >= ? AND f.fact_anulado = 'N'AND  fd.fade_anulado = 'N' AND fd.fade_tiva = 0;";
 
             statement = connection.prepareStatement(sql);
             statement.setDate(1, new Date(fechaFinal.getTime()));
@@ -99,60 +99,96 @@ public class Facturas0Dao {
             int totalFacturas = 0;
             Double totalAnularDays = 0.0;
 
-            for (int i = 0; i < cantMeses; i++) {
-                Calendar fechaInicialMes = new GregorianCalendar();
-                fechaInicialMes.setTime(fechaInicial.getTime());
-                fechaInicialMes.add(Calendar.MONTH, i);
+            if (totalVentas > netoVent0) {
 
-                Calendar diaInicialMes = new GregorianCalendar();
-                diaInicialMes.setTime(fechaInicialMes.getTime());
-                diaInicialMes.set(Calendar.DAY_OF_MONTH, 1);
+                for (int i = 0; i < cantMeses; i++) {
+                    Calendar fechaInicialMes = new GregorianCalendar();
+                    fechaInicialMes.setTime(fechaInicial.getTime());
+                    fechaInicialMes.add(Calendar.MONTH, i);
 
-                Calendar diaFinalMes = new GregorianCalendar();
-                diaFinalMes.setTime(fechaInicialMes.getTime());
-                diaFinalMes.set(Calendar.DAY_OF_MONTH,
-                        diaFinalMes.getActualMaximum(Calendar.DAY_OF_MONTH));
+                    Calendar diaInicialMes = new GregorianCalendar();
+                    diaInicialMes.setTime(fechaInicialMes.getTime());
+                    diaInicialMes.set(Calendar.DAY_OF_MONTH, 1);
 
-                double total = ObtenerVentas0(diaInicialMes.getTime(), diaFinalMes.getTime());
+                    Calendar diaFinalMes = new GregorianCalendar();
+                    diaFinalMes.setTime(fechaInicialMes.getTime());
+                    diaFinalMes.set(Calendar.DAY_OF_MONTH,
+                            diaFinalMes.getActualMaximum(Calendar.DAY_OF_MONTH));
 
-                float porcentaje = (float) (total / totalVentas * 100);
+                    double total = ObtenerVentas0(diaInicialMes.getTime(), diaFinalMes.getTime());
 
-                double totalNew = (netoVent0 * porcentaje) / 100;
+                    float porcentaje = (float) (total / totalVentas * 100);
 
-                VentaVo venta = new VentaVo(total, porcentaje, fechaInicialMes.get(Calendar.MONTH) + 1,
-                        totalNew, total - totalNew);
-                ventas[i] = venta;
+                    double totalNew = (netoVent0 * porcentaje) / 100;
 
-                ArrayList<VentaDataVo> ventasData = ObtenerVentasData0(diaInicialMes.getTime(),
-                        diaFinalMes.getTime());
+                    VentaVo venta = new VentaVo(total, porcentaje, fechaInicialMes.get(Calendar.MONTH) + 1,
+                            totalNew, total - totalNew);
+                    ventas[i] = venta;
 
-                double totalAnular = 0;
-                ArrayList<VentaDataVo> ventasAnular = new ArrayList<>();
+                    ArrayList<VentaDataVo> ventasData = ObtenerVentasData0(diaInicialMes.getTime(),
+                            diaFinalMes.getTime());
 
-                for (VentaDataVo ventaData : ventasData) {
-                    if (totalAnular + ventaData.getTotaliva() <= venta.getTotalAnular()
-                            && ventaData.getIva5() == 0) {
+                    double totalAnular = 0;
+                    ArrayList<VentaDataVo> ventasAnular = new ArrayList<>();
 
-                        totalAnular += ventaData.getTotaliva();
-                        ventasAnular.add(ventaData);
-                        totalAnularDays += ventaData.getTotal();
+                    for (VentaDataVo ventaData : ventasData) {
+                        if (totalAnular + ventaData.getTotaliva() <= venta.getTotalAnular()
+                                && ventaData.getIva5() == 0) {
+
+                            totalAnular += ventaData.getTotaliva();
+                            ventasAnular.add(ventaData);
+                            totalAnularDays += ventaData.getTotal();
+                        }
+                    }
+                    totalFacturas += ventasAnular.size();
+
+                    for (int j = 0; j < ventasAnular.size(); j++) {
+                        int id = ventasAnular.get(j).getId();
+                        facturasDao.AnularVentas(id);
+                        // System.out.println("Anulada venta: " + (j + 1));
+                    }
+
+                    if (ventasAnular.size() == 0 && i == cantMeses) {
+                        break;
                     }
                 }
-                totalFacturas += ventasAnular.size();
 
-                for (int j = 0; j < ventasAnular.size(); j++) {
-                    int id = ventasAnular.get(j).getId();
-                    facturasDao.AnularVentas(id);
-                    // System.out.println("Anulada venta: " + (j + 1));
+                if (totalFacturas == 0) {
+                    return true;
                 }
+            } else {
 
-                if (ventasAnular.size() == 0 && i == cantMeses) {
-                    break;
+                boolean dato = false;
+
+                while (totalVentas < netoVent0) {
+                    ArrayList<FacturaVo> facturasAnuladas = facturasDao.ObtenerVentasAnuladas(
+                            fechaInicial.getTime(),
+                            fechaFinal.getTime(), netoVent0 - totalVentas);
+
+                    if (facturasAnuladas.size() == 0) {
+                        dato = true;
+                        break;
+                    }
+
+                    for (FacturaVo factura : facturasAnuladas) {
+                        totalVentas = ObtenerVentas0(
+                                fechaInicial.getTime(),
+                                fechaFinal.getTime());
+
+                        if (netoVent0 - totalVentas > factura.getFact_total()) {
+                            facturasDao.ActivarVentas(factura.getFact_id());
+                            facturasDao.UpdateIva0(factura.getFact_id());
+                        } else {
+                            break;
+                        }
+                    }
+
                 }
-            }
+                totalVentas = ObtenerVentas0(
+                        fechaInicial.getTime(),
+                        fechaFinal.getTime());
+                return dato;
 
-            if (totalFacturas == 0) {
-                return true;
             }
 
             System.out.println("Total anular: " + totalAnularDays.intValue());

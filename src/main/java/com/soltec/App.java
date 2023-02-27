@@ -12,12 +12,12 @@ import java.util.GregorianCalendar;
  */
 public final class App {
 
-    static double netoDevol = 5265000;
-    static double netoVent5 = 228426000;
-    static double netoVent19 = 510945000;
-    static double netoVent0 = 775947000;
-    static String fechaInicialString = "01/05/2020";
-    static String fechaFinalString = "31/08/2020";
+    static double netoDevol = 15513000;
+    static double netoVent5 = 217882000;
+    static double netoVent19 = 442625000;
+    static double netoVent0 = 1661000000;
+    static String fechaInicialString = "01/09/2020";
+    static String fechaFinalString = "31/12/2020";
 
     private App() {
     }
@@ -62,7 +62,7 @@ public final class App {
             Double ventas0 = myFacturas0Dao.ObtenerVentas0(fechaInicial.getTime(),
                     fechaFinal.getTime());
 
-            while (ventas0 > netoVent0) {
+            while (ventas0 != netoVent0) {
                 boolean notInvoices = myFacturas0Dao.RecalcularVentas0();
                 ventas0 = myFacturas0Dao.ObtenerVentas0(fechaInicial.getTime(),
                         fechaFinal.getTime());
@@ -81,12 +81,24 @@ public final class App {
             Facturas19Dao myFacturas19Dao = new Facturas19Dao(connection, netoVent19, fechaInicialString,
                     fechaFinalString);
 
-            myFacturas19Dao.RecalcularVentas19();
+            Double ventas19 = myFacturas19Dao.ObtenerVentas19(fechaInicial.getTime(),
+                    fechaFinal.getTime());
 
-            /*
-             * myFacturas19Dao.RecalcularVentas19();
-             * myProductosDao.AnularProductos();
-             */
+            while (ventas19 != netoVent19) {
+                boolean notInvoices = myFacturas19Dao.RecalcularVentas19();
+                ventas19 = myFacturas19Dao.ObtenerVentas19(fechaInicial.getTime(),
+                        fechaFinal.getTime());
+
+                if (notInvoices) {
+                    break;
+                }
+                connection.close();
+                conectFirebird = new ConexionFirebird();
+                connection = conectFirebird.getConnection();
+
+                myFacturas19Dao = new Facturas19Dao(connection, netoVent19, fechaInicialString,
+                        fechaFinalString);
+            }
 
             conectFirebird.desconectar();
 
