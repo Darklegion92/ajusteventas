@@ -25,7 +25,7 @@ public class Facturas5Dao {
         this.fechaFinalString = fechaFinalString;
     }
 
-    private Double ObtenerVentas5(java.util.Date fechaInicial, java.util.Date fechaFinal) {
+    Double ObtenerVentas5(java.util.Date fechaInicial, java.util.Date fechaFinal) {
         try {
 
             PreparedStatement statement = null;

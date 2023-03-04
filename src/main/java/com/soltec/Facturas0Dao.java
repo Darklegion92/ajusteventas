@@ -132,8 +132,7 @@ public class Facturas0Dao {
                     ArrayList<VentaDataVo> ventasAnular = new ArrayList<>();
 
                     for (VentaDataVo ventaData : ventasData) {
-                        if (totalAnular + ventaData.getTotaliva() <= venta.getTotalAnular()
-                                && ventaData.getIva5() == 0) {
+                        if (totalAnular + ventaData.getTotaliva() <= venta.getTotalAnular()) {
 
                             totalAnular += ventaData.getTotaliva();
                             ventasAnular.add(ventaData);
