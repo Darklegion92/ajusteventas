@@ -80,7 +80,26 @@ public class FacturasDao {
     void UpdateIva19(int id) {
         try {
             PreparedStatement statement = null;
-            String sql2 = "UPDATE FACTURAS_DETALLE SET fade_tiva = 1, fade_ivaporc=19, fade_ivamonto=fade_total/1.19  WHERE fact_id = ?";
+            String sql2 = "UPDATE FACTURAS_DETALLE SET fade_tiva = 1, fade_ivaporc=19, fade_ivamonto=fade_total - (fade_total/1.19)  WHERE fact_id = ?";
+
+            statement = connection.prepareStatement(sql2);
+            statement.setDouble(1, id);
+            statement.executeUpdate();
+
+            sql2 = "select * from  RECALCULA_IVA_FACTURA(?)";
+            statement = connection.prepareStatement(sql2);
+            statement.setInt(1, id);
+            statement.execute();
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    void UpdateIva5(int id) {
+        try {
+            PreparedStatement statement = null;
+            String sql2 = "UPDATE FACTURAS_DETALLE SET fade_tiva = 2, fade_ivaporc=5, fade_ivamonto=fade_total - (fade_total/1.05)  WHERE fact_id = ?";
 
             statement = connection.prepareStatement(sql2);
             statement.setDouble(1, id);

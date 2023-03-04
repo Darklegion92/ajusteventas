@@ -12,12 +12,21 @@ import java.util.GregorianCalendar;
  */
 public final class App {
 
-    static double netoDevol = 15513000;
-    static double netoVent5 = 217882000;
-    static double netoVent19 = 442625000;
-    static double netoVent0 = 1661000000;
-    static String fechaInicialString = "01/09/2020";
-    static String fechaFinalString = "31/12/2020";
+    /*
+     * static double netoDevol = 15513000;
+     * static double netoVent5 = 217882000;
+     * static double netoVent19 = 442625000;
+     * static double netoVent0 = 1661000000;
+     * static String fechaInicialString = "01/09/2020";
+     * static String fechaFinalString = "31/12/2020";
+     */
+
+    static double netoDevol = 5265000;
+    static double netoVent5 = 228426000;
+    static double netoVent19 = 510945000;
+    static double netoVent0 = 775947000;
+    static String fechaInicialString = "01/05/2020";
+    static String fechaFinalString = "31/08/2020";
 
     private App() {
     }
